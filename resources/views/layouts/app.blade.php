@@ -160,5 +160,6 @@
 <script src="{{ asset('js/app.js') }}" defer></script>
 <script>Dropzone.autoDiscover = false;</script>
 @stack('page_js')
+@yield('script')
 </body>
 </html>

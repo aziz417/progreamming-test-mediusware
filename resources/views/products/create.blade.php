@@ -4,7 +4,8 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Create Product</h1>
     </div>
-    <form action="{{ route('product.store') }}" method="post" autocomplete="off" spellcheck="false">
+    <form enctype="multipart/form-data" action="{{ route('product.store') }}" method="post" autocomplete="off" spellcheck="false">
+        @csrf
         <section>
             <div class="row">
                 <div class="col-md-6">
@@ -61,7 +62,7 @@
                         </div>
                         <div class="card-footer bg-white border-top-0" id="add-btn">
                             <div class="row d-flex justify-content-center">
-                                <button class="btn btn-primary add-btn" onclick="addVariant(event);">
+                                <button class="btn btn-primary add-btn" onclick="addVariant(event); setVariant()">
                                     Add another option
                                 </button>
                             </div>
@@ -79,6 +80,7 @@
                                         <th>Stock</th>
                                     </tr>
                                     </thead>
+
                                     <tbody id="variant-previews">
                                     </tbody>
                                 </table>
@@ -87,12 +89,47 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-lg btn-primary">Save</button>
+            <button type="submit" class="btn btn-lg btn-primary">Save</button>
             <button type="button" class="btn btn-secondary btn-lg">Cancel</button>
         </section>
+
     </form>
 @endsection
 
 @push('page_js')
     <script type="text/javascript" src="{{ asset('js/product.js') }}"></script>
+    <script>
+        function setVariant(){
+            let cIndex = currentIndex - 1;
+            $(".variant-set-"+cIndex).append(`
+            @forelse($variants as $variant)
+            <optgroup label="{{ $variant->title }}">
+                                @forelse($variant->product_variants as $product_variant)
+            <option value="{{ $product_variant->id }}|{{ $product_variant->variant }}">{{ $product_variant->variant }}</option>
+                                @empty
+            <p>No Product Variants</p>
+@endforelse
+            </optgroup>
+@empty
+            <p>No Variants</p>
+@endforelse
+            `)
+        }
+
+        $(document).ready(function () {
+            $(".variant-set-0").append(`
+            @forelse($variants as $variant)
+            <optgroup label="{{ $variant->title }}">
+                                @forelse($variant->product_variants as $product_variant)
+            <option value="{{ $product_variant->id }}|{{ $product_variant->variant }}">{{ $product_variant->variant }}</option>
+                                @empty
+            <p>No Product Variants</p>
+@endforelse
+            </optgroup>
+@empty
+            <p>No Variants</p>
+@endforelse
+`)
+        })
+    </script>
 @endpush

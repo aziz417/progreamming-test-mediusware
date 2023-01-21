@@ -19,6 +19,7 @@
                                 <input type="text"
                                        name="product_name"
                                        id="product_name"
+                                       value="{{ $product->title }}"
                                        required
                                        placeholder="Product Name"
                                        class="form-control">
@@ -28,7 +29,8 @@
                                 <input type="text" name="product_sku"
                                        id="product_sku"
                                        required
-                                       placeholder="Product Name"
+                                       value="{{ $product->sku }}"
+                                       placeholder="Product SKU"
                                        class="form-control"></div>
                             <div class="form-group mb-0">
                                 <label for="product_description">Description</label>
@@ -36,7 +38,7 @@
                                           id="product_description"
                                           required
                                           rows="4"
-                                          class="form-control"></textarea>
+                                          class="form-control">{{ $product->description }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -57,7 +59,36 @@
                         <div class="card-header py-3"><h6
                                 class="m-0 font-weight-bold text-primary">Variants</h6>
                         </div>
-                        <div class="card-body pb-0" id="variant-sections">
+                        <div class="card-body pb-0" id="variant-sections-edit">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Option</label>
+                                        <select id="select2-option" data-index="" name="product_variant[${currentIndex}][option]" class="form-control custom-select select2 select2-option">
+                                            <option value="1">
+                                                Color
+                                            </option>
+                                            <option value="2">
+                                                Size
+                                            </option>
+                                            <option value="6">
+                                                Style
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="d-flex justify-content-between">
+                                            <span>Value</span>
+                                            <a href="#" class="remove-btn" data-index="${currentIndex}" onclick="removeVariant(event, this);">Remove</a>
+                                        </label>
+                                        <select id="select2-value-${currentIndex}" data-index="${currentIndex}" name="product_variant[${currentIndex}][value][]" class="select2 select2-value form-control custom-select variant-set-${currentIndex}" multiple="multiple">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer bg-white border-top-0" id="add-btn">
                             <div class="row d-flex justify-content-center">
@@ -95,4 +126,7 @@
 
 @push('page_js')
     <script type="text/javascript" src="{{ asset('js/product.js') }}"></script>
+    <script>
+
+    </script>
 @endpush

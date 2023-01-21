@@ -16,8 +16,9 @@ $(document).ready(function () {
         }
     });
 });
-
+let variant_count = 0;
 function addVariant(event) {
+    variant_count = 0;
     event.preventDefault();
     addVariantTemplate();
 }
@@ -31,6 +32,7 @@ function getCombination(arr, pre) {
     }
 
     return arr[0].reduce(function (ans, value) {
+        value = value.split("|")[1];
         return ans.concat(getCombination(arr.slice(1), pre + value + '/'));
     }, []);
 }
@@ -91,7 +93,8 @@ function addVariantTemplate() {
                                             <span>Value</span>
                                             <a href="#" class="remove-btn" data-index="${currentIndex}" onclick="removeVariant(event, this);">Remove</a>
                                         </label>
-                                        <select id="select2-value-${currentIndex}" data-index="${currentIndex}" name="product_variant[${currentIndex}][value][]" class="select2 select2-value form-control custom-select" multiple="multiple">
+                                        <select id="select2-value-${currentIndex}" data-index="${currentIndex}" name="product_variant[${currentIndex}][value][]" class="select2 select2-value form-control custom-select variant-set-${currentIndex}" multiple="multiple">
+                                        
                                         </select>
                                     </div>
                                 </div>
